@@ -1,5 +1,5 @@
 import React from 'react';
-import { Line, LineChart, Legend, XAxis, Tooltip } from 'recharts';
+import { Line, LineChart, XAxis, Tooltip } from 'recharts';
 import { formatTime } from '../../../../utils';
 
 const CustomizedLabel = ({ x, y, stroke, value }) => (
@@ -23,7 +23,7 @@ export const Chart = ({ threeHourForcastList }) => {
   }));
   return (
     <LineChart
-      width={700}
+      width={1000}
       height={200}
       data={data}
       margin={{

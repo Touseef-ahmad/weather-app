@@ -20,7 +20,9 @@ export const getCityName = data => {
  * @returns {forcast} array contains three hour forcast of that date
  */
 export const getForcastByDate = (data, date) => {
-  const forcast = data.list.filter(elem => elem.dt_txt.split(' ')[0] === date);
+  const cityName = data.city.name;
+  const selectedDate = date[cityName];
+  const forcast = data.list.filter(element => element.dt_txt.split(' ')[0] === selectedDate);
   return forcast;
 };
 
@@ -44,7 +46,7 @@ export const getTodaysFocast = data => {
  */
 export const getDateList = data => {
   const distinct = (value, index, self) => self.indexOf(value) === index;
-  const dates = data.list.map(elem => elem.dt_txt.split(' ')[0]).filter(distinct);
+  const dates = data.list.map(element => element.dt_txt.split(' ')[0]).filter(distinct);
   return dates;
 };
 
@@ -70,6 +72,44 @@ export const formatTime = dateText => {
   return time >= 12
     ? `${time - 12 === 0 ? 12 : time - 12} pm`
     : `${Math.abs(time - 12 === 0 ? 12 : time - 12)} am`;
+};
+
+/**
+ * The following function extracts data and returns from the list of response
+ */
+export const filterForcastData = (threeHourForcastList, response) => {
+  const cityName = response.city.name;
+
+  const forcastOfcurrentHour = threeHourForcastList[0];
+  const {
+    main,
+    weather,
+    dt_txt: dataText,
+    wind,
+    pop: probabilityOfPrecipitation,
+  } = forcastOfcurrentHour;
+  const { humidity, temp: temperature } = main;
+  const { speed: windSpeed } = wind;
+  const { main: weatherDiscription } = weather[0];
+  const day = getDayFromDate(dataText);
+  const precipitation = probabilityOfPrecipitation * 100;
+  const fiveDaysForcastDateList = getDateList(response);
+  return {
+    cityName,
+    day,
+    fiveDaysForcastDateList,
+    humidity,
+    precipitation,
+    temperature,
+    weatherDiscription,
+    windSpeed,
+  };
+};
+
+export const getSelectedDateCityObj = data => {
+  const selectedDate = {};
+  selectedDate[data.city.name] = getDateList(data)[0];
+  return selectedDate;
 };
 
 /**

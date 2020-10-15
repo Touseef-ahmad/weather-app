@@ -6,11 +6,16 @@ export const StyledWrapper = styled.div`
   margin: 20px 0;
 `;
 
-export const StyledSelect = styled.select`
+export const StyledCityNameWrapper = styled.span`
   border: none;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bolder;
   padding: 5px 20px;
+`;
+
+export const StyledCard = styled.div`
+  box-shadow: 3px 3px 5px 6px ${({ theme }) => theme.secondaryGreyColor};
+  margin: 30px;
 `;
 
 export const StyledSpan = styled.span`

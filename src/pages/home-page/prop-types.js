@@ -1,6 +1,6 @@
 import { func, bool } from 'prop-types';
 
 export const propTypes = {
-  loading: bool.isRequired,
+  isLoading: bool.isRequired,
   dispatch: func.isRequired,
 };

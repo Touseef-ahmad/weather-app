@@ -1,31 +1,28 @@
 import * as actionTypes from './types';
 import { fetchCityWeather } from '../../api';
 
-export const setWeatherData = data => ({
+export const onFetachWeatherDataSuccess = data => ({
   type: actionTypes.WEATHER_DATA_SET,
   payload: { data },
 });
 
-export const setSelectedCity = city => ({
-  type: actionTypes.SELECTED_CITY_SET,
-  payload: { city },
-});
-
-export const setSelectedDate = date => ({
+export const onSelectDay = (cityName, date) => ({
   type: actionTypes.SELECTED_DATE_SET,
-  payload: { date },
+  payload: { cityName, date },
 });
 
-export const getWeatherDataFailure = errorMessage => ({
+export const onFetachWeatherDataFailure = errorMessage => ({
   type: actionTypes.WEATHER_DATA_FAILURE,
   payload: { errorMessage },
 });
-
+export const onFetachWeatherDataAttempt = () => ({
+  type: actionTypes.WEATHER_DATA_ATTEMPT,
+});
 export const fetchWeatherData = city => async dispatch => {
-  const result = await fetchCityWeather(city);
-  if (result.message) {
-    dispatch(getWeatherDataFailure(result.message));
-  } else {
-    dispatch(setWeatherData(result.data));
+  try {
+    const response = await fetchCityWeather(city);
+    dispatch(onFetachWeatherDataSuccess(response.data));
+  } catch (error) {
+    dispatch(onFetachWeatherDataFailure(error.message));
   }
 };
