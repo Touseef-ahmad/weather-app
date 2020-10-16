@@ -17,6 +17,7 @@ function HeaderComponent({ dispatch }) {
 
   const handleChange = event => {
     setQuery(event.target.value);
+    dispatch(fetchWeatherData(event.target.value));
   };
 
   const handleClick = event => {

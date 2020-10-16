@@ -14,18 +14,11 @@ import {
   StyledWrapper,
 } from './styled';
 
-import {
-  filterForcastData,
-  getDayFromDate,
-  getForcastByDate,
-  ICON_CLASS_NAMES,
-} from '../../../utils';
+import { filterForcastData, getDayFromDate, ICON_CLASS_NAMES } from '../../../utils';
 
 import { propTypes } from './prop-types';
 
-const WeatherContainerComponent = ({ response, dispatch, selectedDate }) => {
-  const threeHourForcastList = getForcastByDate(response, selectedDate);
-
+const WeatherForcastChartComponent = ({ forcastData, dispatch, selectedDate }) => {
   const {
     cityName,
     day,
@@ -35,7 +28,8 @@ const WeatherContainerComponent = ({ response, dispatch, selectedDate }) => {
     temperature,
     weatherDiscription,
     windSpeed,
-  } = filterForcastData(threeHourForcastList, response);
+    threeHourForcastList,
+  } = filterForcastData(forcastData, selectedDate);
 
   const handleClick = (cityName, date) => dispatch(onSelectDay(cityName, date));
 
@@ -88,6 +82,6 @@ const WeatherContainerComponent = ({ response, dispatch, selectedDate }) => {
   );
 };
 
-WeatherContainerComponent.propTypes = propTypes;
+WeatherForcastChartComponent.propTypes = propTypes;
 
-export const WeatherContainer = connect(null)(WeatherContainerComponent);
+export const WeatherForcastChart = connect(null)(WeatherForcastChartComponent);

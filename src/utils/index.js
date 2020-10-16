@@ -1,3 +1,5 @@
+export * from './constants';
+
 /**
  * * Funtions in this file are used to extract some data from
  * * openWeatherMap api response
@@ -20,7 +22,7 @@ export const getCityName = data => {
  * @returns {forcast} array contains three hour forcast of that date
  */
 export const getForcastByDate = (data, date) => {
-  const cityName = data.city.name;
+  const { name: cityName } = data.city;
   const selectedDate = date[cityName];
   const forcast = data.list.filter(element => element.dt_txt.split(' ')[0] === selectedDate);
   return forcast;
@@ -77,9 +79,9 @@ export const formatTime = dateText => {
 /**
  * The following function extracts data and returns from the list of response
  */
-export const filterForcastData = (threeHourForcastList, response) => {
-  const cityName = response.city.name;
-
+export const filterForcastData = (forcastData, selectedDate) => {
+  const cityName = forcastData.city.name;
+  const threeHourForcastList = getForcastByDate(forcastData, selectedDate);
   const forcastOfcurrentHour = threeHourForcastList[0];
   const {
     main,
@@ -93,7 +95,7 @@ export const filterForcastData = (threeHourForcastList, response) => {
   const { main: weatherDiscription } = weather[0];
   const day = getDayFromDate(dataText);
   const precipitation = probabilityOfPrecipitation * 100;
-  const fiveDaysForcastDateList = getDateList(response);
+  const fiveDaysForcastDateList = getDateList(forcastData);
   return {
     cityName,
     day,
@@ -101,15 +103,10 @@ export const filterForcastData = (threeHourForcastList, response) => {
     humidity,
     precipitation,
     temperature,
+    threeHourForcastList,
     weatherDiscription,
     windSpeed,
   };
-};
-
-export const getSelectedDateCityObj = data => {
-  const selectedDate = {};
-  selectedDate[data.city.name] = getDateList(data)[0];
-  return selectedDate;
 };
 
 /**

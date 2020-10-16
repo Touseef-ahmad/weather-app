@@ -1,8 +1,9 @@
 import { actionTypes } from '../../actions/weather';
-import { getSelectedDateCityObj } from '../../utils';
+import { getDateList } from '../../utils';
 
 const INITIAL_STATE = {
   data: [],
+  empty: false,
   error: false,
   isLoading: true,
   selectedDate: {},
@@ -15,11 +16,18 @@ export const weatherReducer = (state = INITIAL_STATE, action) => {
         ...state,
         data: [action.payload.data, ...state.data],
         isLoading: false,
+        empty: false,
         // first date out of date list will be the current day
-        selectedDate: { ...state.selectedDate, ...getSelectedDateCityObj(action.payload.data) },
+        selectedDate: {
+          ...state.selectedDate,
+          [action.payload.data.city.name]: getDateList(action.payload.data)[0],
+        },
       };
-    case actionTypes.WEATHER_DATA_ATTEMPT:
+    case actionTypes.WEATHER_DATA_FETCH_ATTEMPT:
       return {
+        ...state,
+        empty: false,
+        error: false,
         isLoading: true,
       };
     case actionTypes.SELECTED_DATE_SET:
@@ -30,12 +38,17 @@ export const weatherReducer = (state = INITIAL_STATE, action) => {
           [action.payload.cityName]: action.payload.date,
         },
       };
-
-    case actionTypes.WEATHER_DATA_FAILURE:
+    case actionTypes.RESULTS_NOT_FOUND:
+      return {
+        ...state,
+        empty: true,
+        isLoading: false,
+      };
+    case actionTypes.WEATHER_DATA_FETCH_FAILURE:
       return {
         ...state,
         error: true,
-        errorMessage: action.payload.data,
+        errorMessage: action.payload.errorMessage,
         isLoading: false,
       };
     default:
