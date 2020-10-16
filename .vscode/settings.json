@@ -6,7 +6,8 @@
     "editor.showFoldingControls": "always",
     "editor.folding": true,
     "editor.foldingStrategy": "indentation",
+    "editor.fontFamily": "DejaVu Sans Mono for Powerline, Menlo, Monaco, 'Courier New', monospace",
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true,
     },
-  }
+}
