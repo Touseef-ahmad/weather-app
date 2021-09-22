@@ -16,12 +16,6 @@ function HomePageComponent({
   isLoading,
   selectedDate,
 }) {
-  const getWeatherData = async () => {
-    dispatch(fetchWeatherData(HOME_CITY));
-  };
-  useEffect(() => {
-    getWeatherData();
-  }, []);
 
   return (
     <div>
