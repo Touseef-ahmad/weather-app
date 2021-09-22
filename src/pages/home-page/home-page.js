@@ -26,6 +26,7 @@ function HomePageComponent({
   return (
     <div>
       <Header />
+      <h1>This is my weather app</h1>
       {isLoading && <Loader />}
       {empty && RESULTS_NOT_FOUND_MESSAGE}
       {error && errorMessage}
