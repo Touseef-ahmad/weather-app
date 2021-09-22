@@ -16,16 +16,11 @@ function HomePageComponent({
   isLoading,
   selectedDate,
 }) {
-  const getWeatherData = async () => {
-    dispatch(fetchWeatherData(HOME_CITY));
-  };
-  useEffect(() => {
-    getWeatherData();
-  }, []);
 
   return (
     <div>
       <Header />
+      <h2>This is my weather app</h2>
       {isLoading && <Loader />}
       {empty && RESULTS_NOT_FOUND_MESSAGE}
       {error && errorMessage}
